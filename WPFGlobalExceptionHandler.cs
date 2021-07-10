@@ -13,7 +13,7 @@ public class WPFGlobalExceptionHandler
     }
 
     /// <summary>
-    /// This methods gets invoked for every unhandled excption
+    /// This methods gets invoked for every unhandled exception
     /// that is raise on the application Dispatcher, the AppDomain
     /// or by the GC cleaning up a faulted Task.
     /// </summary>
@@ -28,7 +28,7 @@ public class WPFGlobalExceptionHandler
     /// Override this method to decide if the <see cref="OnUnhandledException(Exception)"/>
     /// method should be called for the passes Dispatcher exception.
     /// </summary>
-    /// <param name="exception">The unhandled excpetion on the applications dispatcher.</param>
+    /// <param name="exception">The unhandled exception on the applications dispatcher.</param>
     /// <returns>True if the <see cref="OnUnhandledException(Exception)"/> method should
     /// be called. False if not</returns>
     protected virtual void CatchDispatcherException(Exception exception)
