@@ -4,3 +4,9 @@ This repo consists of C# functions to help you with your .Net app development. F
 | C# File|  Method        | Descriptions    |
 | --------------   | ---------------|-----------------|
 | `ExtractResource.cs` | Extract(`string` nameSpace, `string` outDirectory, `string` internalFilePath, `string` resourceName)| Extract an embedded resource to a specified output directory|
+
+```diff
++ this text is highlighted in green
+- this text is highlighted in red
+```
+```
