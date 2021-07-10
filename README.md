@@ -1,2 +1,6 @@
 # csharp-func
-C# functions to help with .Net app development
+This repo consists of C# functions to help you with your .Net app development. Feel free to modify the code to meet your need.
+
+| C# File|  Method        | Descriptions    |
+| --------------   | ---------------|-----------------|
+| `ExtractResource.cs` | Extract(`string` nameSpace, `string` outDirectory, `string` internalFilePath, `string` resourceName)| Extract an embedded resource to a specified output directory|
