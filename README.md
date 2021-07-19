@@ -1,4 +1,4 @@
-# csharp-func
+# C# Functions
 
 This repo consists of C# functions to help you with your .Net app development. Feel free to modify the code to meet your need. 
 
