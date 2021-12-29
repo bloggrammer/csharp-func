@@ -21,5 +21,17 @@ public class ExtractResource
         using (BinaryWriter w = new BinaryWriter(fs))
             w.Write(r.ReadBytes((int)s.Length));
     }
+    
+      public static string Extract(string fileName)
+        {
+            var assembly = Assembly.GetCallingAssembly();
+
+            string resourceName = assembly.GetManifestResourceNames()
+                                        .Single(str => str.EndsWith(fileName));
+
+            using Stream stream = assembly.GetManifestResourceStream(resourceName);
+            using StreamReader reader = new(stream);
+            return reader.ReadToEnd();
+        }
 }
 
