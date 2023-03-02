@@ -1,0 +1,32 @@
+static async Task Main(string[] args)
+    {
+        // Create a SqlSyncProvider object for the server database        SqlSyncProvider serverProvider = new SqlSyncProvider(serverConnectionString);
+        // Create a SqlSyncProvider object for the local database        SqlSyncProvider clientProvider = new SqlSyncProvider(localConnectionString);
+        // Specify the tables involved in the sync process        var tables = new string[] { "MU_Group" };
+        // Create a SyncSetup object        var setup = new SyncSetup(tables);
+        // Create a SyncAgent object        SyncAgent agent = new SyncAgent(clientProvider, serverProvider);
+        // Remove any previous sync data from the server and local databases        await DeprovisionServerAsync(serverConnectionString);
+        await DeprovisionLocalAsync(localConnectionString);
+        // Remove any previous sync data from the server and local databases        var scopeInfo = await agent.LocalOrchestrator.GetScopeInfoAsync();
+        await agent.LocalOrchestrator.DeleteScopeInfoAsync(scopeInfo);
+        var serverScopeInfo = await agent.RemoteOrchestrator.GetScopeInfoAsync();
+        await agent.RemoteOrchestrator.DeleteScopeInfoAsync(serverScopeInfo);
+        // Start the synchronization process        do        {
+            var result = await agent.SynchronizeAsync(setup);
+            Console.WriteLine(result);
+        } while (Console.ReadKey().Key != ConsoleKey.Escape);
+    }
+    private static async Task DeprovisionServerAsync(string serverConnectionString)
+    {
+        // Create server provider        var serverProvider = new SqlSyncProvider(serverConnectionString);
+        // Create a server orchestrator used to Deprovision everything on the server side        var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
+        // Deprovision everything        var p = SyncProvision.ScopeInfo | SyncProvision.ScopeInfoClient |                    SyncProvision.StoredProcedures | SyncProvision.TrackingTable |                    SyncProvision.Triggers;   
+        // Deprovision everything        await remoteOrchestrator.DeprovisionAsync(p);
+    }
+    private static async Task DeprovisionLocalAsync(string clientConnectionString)
+    {
+        // Create client provider        var clientProvider = new SqlSyncProvider(clientConnectionString);
+        // Create a local orchestrator used to Deprovision everything        var localOrchestrator = new LocalOrchestrator(clientProvider);
+        var p = SyncProvision.ScopeInfo | SyncProvision.ScopeInfoClient |                    SyncProvision.StoredProcedures | SyncProvision.TrackingTable |                    SyncProvision.Triggers;
+        // Deprovision everything        await localOrchestrator.DeprovisionAsync(p);
+    }
